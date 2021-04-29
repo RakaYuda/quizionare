@@ -1,36 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:quizionare/services/api_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizionare/cubit/questions_cubit.dart';
+import 'package:quizionare/models/questions.dart';
+import 'package:quizionare/screens/welcome_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const id = 'home-screen';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List listQuiz;
-
+  Questions _questions = Questions([]);
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-  }
-
-  getListQuiz() {
-    listQuiz = getListDataQuiz();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: listQuiz.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              leading: Icon(Icons.question_answer),
-              title: Text(listQuiz[index].question),
-            ),
-          );
+      body: BlocBuilder<QuestionsCubit, QuestionsState>(
+        builder: (context, state) {
+          if (state is LoadingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is ErrorState) {
+            return Center(
+              child: Icon(Icons.close),
+            );
+          } else if (state is LoadedState) {
+            _questions = state.questions;
+
+            return WelcomeScreen(questions: _questions);
+          } else {
+            return Container(
+              child: Center(
+                child: Text('Empty Data Question'),
+              ),
+            );
+          }
         },
       ),
     );
