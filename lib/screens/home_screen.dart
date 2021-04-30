@@ -12,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Questions _questions = Questions([]);
   @override
   void initState() {
     super.initState();
@@ -32,8 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(Icons.close),
             );
           } else if (state is LoadedState) {
-            _questions = state.questions;
-
+            Questions _questions = state.questions;
             return WelcomeScreen(questions: _questions);
           } else {
             return Container(

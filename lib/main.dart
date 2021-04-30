@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizionare/api/repository/api_question_repository.dart';
 import 'package:quizionare/cubit/questions_cubit.dart';
 import 'package:quizionare/models/questions.dart';
-import 'package:quizionare/screens/home_page.dart';
+import 'package:quizionare/screens/home_screen.dart';
 import 'package:quizionare/screens/score_screen.dart';
 import 'package:quizionare/screens/welcome_screen.dart';
 
