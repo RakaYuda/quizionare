@@ -7,7 +7,9 @@ import 'package:quizionare/screens/score_screen.dart';
 class QuizScreen extends StatefulWidget {
   static const id = 'quiz-screen';
 
-  final Questions questions;
+  // final Questions questions;
+  final List<Map<String, dynamic>> questions;
+
   // final void Function() nextQuestion;
 
   QuizScreen({required this.questions});
@@ -34,7 +36,7 @@ class _QuizScreenState extends State<QuizScreen> {
         _trueAnswer = false;
       });
     }
-    if (_currentNumber != widget.questions.questions.length - 1) {
+    if (_currentNumber != widget.questions.length - 1) {
       setState(() {
         _currentNumber++;
       });
@@ -49,20 +51,48 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
-  List<String> getListOption(int number) {
-    List<String> list = [];
-    Random random = new Random();
-    int randomNumber = random.nextInt(4);
-
-    List<String> listIncorrectAnswer =
-        widget.questions.questions[number].incorrectAnswers!;
-
-    for (var index = 0; index <= 2; index++) {
-      list.add(listIncorrectAnswer[index]);
+  List<Widget> listAnwerOption(String correctAnswer, List<String> listOption) {
+    List<Widget> list = [];
+    for (String option in listOption) {
+      list.add(
+        Card(
+          color: (_choosenAnswer == option)
+              ? Colors.lightBlueAccent
+              : Colors.white,
+          child: InkWell(
+            onTap: () {
+              chooseAnswer(option);
+              _trueAnswer = false;
+            },
+            child: ListTile(
+              title: Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text(option),
+              ),
+            ),
+          ),
+        ),
+      );
     }
-    list.insert(
-        randomNumber, widget.questions.questions[number].correctAnswer!);
     return list;
+  }
+
+  List<String> getListOption(int number) {
+    Map<String, dynamic> mapQuestion = widget.questions[number];
+    List<String> listOption = mapQuestion['list_option'] ?? [];
+    return listOption;
+  }
+
+  String getQuestion(int number) {
+    Map<String, dynamic> mapQuestion = widget.questions[number];
+    String question = mapQuestion['question'];
+    return question;
+  }
+
+  String getAnswer(int number) {
+    Map<String, dynamic> mapQuestion = widget.questions[number];
+    String question = mapQuestion['answer'];
+    return question;
   }
 
   void chooseAnswer(String answer) {
@@ -74,11 +104,11 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final List<Widget> list = listAnwerOption(
-        widget.questions.questions[_currentNumber].correctAnswer!,
-        _currentNumber);
+    // final List<Widget> list = listAnwerOption(
+    //     widget.questions.questions[_currentNumber].correctAnswer!,
+    //     _currentNumber);
 
-    list.shuffle();
+    // list.shuffle();
 
     return Scaffold(
       body: SafeArea(
@@ -101,8 +131,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   title: Padding(
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: Text(
-                      widget.questions.questions[_currentNumber].question ??
-                          'Error Question',
+                      getQuestion(_currentNumber),
                     ),
                   ),
                 ),
@@ -113,7 +142,9 @@ class _QuizScreenState extends State<QuizScreen> {
                   'Answer :',
                 ),
               ),
-              Column(children: list),
+              Column(
+                  children: listAnwerOption(getAnswer(_currentNumber),
+                      getListOption(_currentNumber))),
               SizedBox(height: 24),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4),
@@ -131,34 +162,5 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       ),
     );
-  }
-
-  List<Widget> listAnwerOption(String correctAnswer, int number) {
-    List<Widget> list = [];
-    final List<String> listOption = getListOption(number);
-    for (String option in listOption) {
-      list.add(
-        Card(
-          color: (_choosenAnswer == option)
-              ? Colors.lightBlueAccent
-              : Colors.white,
-          child: InkWell(
-            onTap: () {
-              chooseAnswer(option);
-              _trueAnswer = false;
-            },
-            child: ListTile(
-              title: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  option,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-    return list;
   }
 }

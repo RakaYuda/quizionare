@@ -6,9 +6,10 @@ import 'package:quizionare/screens/quiz_screen.dart';
 class WelcomeScreen extends StatelessWidget {
   static const id = 'welcome-screen';
 
-  final Questions questions;
+  // final Questions questions;
+  final List<Map<String, dynamic>> questions;
 
-  WelcomeScreen({required this.questions});
+  WelcomeScreen(this.questions);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
                 onPressed: () {
-                  print(questions.questions[0]);
+                  // print(questions.questions[0]);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

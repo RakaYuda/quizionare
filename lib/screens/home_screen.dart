@@ -32,7 +32,32 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else if (state is LoadedState) {
             Questions _questions = state.questions;
-            return WelcomeScreen(questions: _questions);
+            List<Map<String, dynamic>> tempQuestions = [];
+
+            _questions.questions.forEach((question) {
+              List<String> listOption = [];
+
+              Map<String, dynamic> tempRow = {
+                'question': question.question ?? '',
+                'list_option': listOption,
+                'answer': question.correctAnswer,
+              };
+
+              question.incorrectAnswers!.forEach((incorrect) {
+                if (tempRow['list_option'].length <= 2) {
+                  listOption.add(incorrect);
+                }
+              });
+
+              listOption.add(question.correctAnswer!);
+              tempRow['list_option'].shuffle();
+
+              tempQuestions.add(tempRow);
+            });
+
+            print(tempQuestions[0]);
+
+            return WelcomeScreen(tempQuestions);
           } else {
             return Container(
               child: Center(

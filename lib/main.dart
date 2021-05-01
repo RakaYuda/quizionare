@@ -22,9 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        WelcomeScreen.id: (context) => WelcomeScreen(
-              questions: Questions([]),
-            ),
+        WelcomeScreen.id: (context) => WelcomeScreen([]),
         HomeScreen.id: (context) => HomeScreen(),
         ScoreScreen.id: (context) => ScoreScreen(
               score: 0,
