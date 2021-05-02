@@ -1,16 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:quizionare/models/questions.dart';
+import 'package:quizionare/components/button.dart';
 import 'package:quizionare/screens/score_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   static const id = 'quiz-screen';
 
-  // final Questions questions;
   final List<Map<String, dynamic>> questions;
-
-  // final void Function() nextQuestion;
 
   QuizScreen({required this.questions});
 
@@ -56,18 +51,40 @@ class _QuizScreenState extends State<QuizScreen> {
     for (String option in listOption) {
       list.add(
         Card(
-          color: (_choosenAnswer == option)
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+          color: Colors.white,
           child: InkWell(
             onTap: () {
               chooseAnswer(option);
               _trueAnswer = false;
             },
             child: ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+              leading: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: (_choosenAnswer == option)
+                      ? Color(0xFF2CDDCC)
+                      : Colors.grey.shade200,
+                ),
+                child: Center(
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
               title: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Text(option),
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Text('$option'),
               ),
             ),
           ),
@@ -104,11 +121,6 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    // final List<Widget> list = listAnwerOption(
-    //     widget.questions.questions[_currentNumber].correctAnswer!,
-    //     _currentNumber);
-
-    // list.shuffle();
 
     return Scaffold(
       body: SafeArea(
@@ -127,9 +139,12 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
               ),
               Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
                 child: ListTile(
                   title: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 16),
                     child: Text(
                       getQuestion(_currentNumber),
                     ),
@@ -146,16 +161,9 @@ class _QuizScreenState extends State<QuizScreen> {
                   children: listAnwerOption(getAnswer(_currentNumber),
                       getListOption(_currentNumber))),
               SizedBox(height: 24),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                child: ElevatedButton(
-                  onPressed: nextQuestion,
-                  child: Container(
-                    height: 64,
-                    width: double.infinity,
-                    child: Center(child: Text('Next Question')),
-                  ),
-                ),
+              ButtonPrimary(
+                text: 'Next Question',
+                onPressed: nextQuestion,
               ),
             ],
           ),

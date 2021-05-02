@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:quizionare/models/questions.dart';
+import 'package:quizionare/components/button.dart';
 import 'package:quizionare/screens/quiz_screen.dart';
+import 'package:quizionare/styles/style.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const id = 'welcome-screen';
 
-  // final Questions questions;
   final List<Map<String, dynamic>> questions;
 
   WelcomeScreen(this.questions);
@@ -18,25 +18,22 @@ class WelcomeScreen extends StatelessWidget {
       body: Container(
         width: size.width,
         height: size.height,
+        padding: EdgeInsets.symmetric(horizontal: 24),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Welcome to Quizionare App',
-                style: TextStyle(
-                  color: Colors.blueAccent,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text('Welcome to \n Quizionare App',
+                  textAlign: TextAlign.center,
+                  style: kTextPrimary.copyWith(
+                    fontSize: 32,
+                  )),
               SizedBox(
-                height: 16,
+                height: 64,
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
+              ButtonPrimary(
+                text: 'Start',
                 onPressed: () {
-                  // print(questions.questions[0]);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -44,15 +41,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text(
-                  'Start',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
+              ),
             ],
           ),
         ),
