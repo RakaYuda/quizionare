@@ -21,4 +21,9 @@ class QuestionsCubit extends Cubit<QuestionsState> {
       emit(ErrorState());
     }
   }
+
+  void resetNewQuestions() {
+    emit(InitialState());
+    getQuestions();
+  }
 }
