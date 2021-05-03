@@ -36,7 +36,7 @@ class _QuizScreenState extends State<QuizScreen> {
         _currentNumber++;
       });
     } else {
-      print('End Quiz');
+      // print('End Quiz');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -44,6 +44,30 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       );
     }
+  }
+
+  void chooseAnswer(String answer) {
+    setState(() {
+      _choosenAnswer = answer;
+    });
+  }
+
+  List<String> getListOption(int number) {
+    Map<String, dynamic> mapQuestion = widget.questions[number];
+    List<String> listOption = mapQuestion['list_option'] ?? [];
+    return listOption;
+  }
+
+  String getQuestion(int number) {
+    Map<String, dynamic> mapQuestion = widget.questions[number];
+    String question = mapQuestion['question'];
+    return question;
+  }
+
+  String getAnswer(int number) {
+    Map<String, dynamic> mapQuestion = widget.questions[number];
+    String question = mapQuestion['answer'];
+    return question;
   }
 
   List<Widget> listAnwerOption(String correctAnswer, List<String> listOption) {
@@ -58,7 +82,11 @@ class _QuizScreenState extends State<QuizScreen> {
           child: InkWell(
             onTap: () {
               chooseAnswer(option);
-              _trueAnswer = false;
+              if (_choosenAnswer == correctAnswer) {
+                _trueAnswer = true;
+              } else {
+                _trueAnswer = false;
+              }
             },
             child: ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 6),
@@ -92,30 +120,6 @@ class _QuizScreenState extends State<QuizScreen> {
       );
     }
     return list;
-  }
-
-  List<String> getListOption(int number) {
-    Map<String, dynamic> mapQuestion = widget.questions[number];
-    List<String> listOption = mapQuestion['list_option'] ?? [];
-    return listOption;
-  }
-
-  String getQuestion(int number) {
-    Map<String, dynamic> mapQuestion = widget.questions[number];
-    String question = mapQuestion['question'];
-    return question;
-  }
-
-  String getAnswer(int number) {
-    Map<String, dynamic> mapQuestion = widget.questions[number];
-    String question = mapQuestion['answer'];
-    return question;
-  }
-
-  void chooseAnswer(String answer) {
-    setState(() {
-      _choosenAnswer = answer;
-    });
   }
 
   @override

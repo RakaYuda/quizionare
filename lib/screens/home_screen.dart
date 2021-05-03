@@ -19,53 +19,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: BlocBuilder<QuestionsCubit, QuestionsState>(
-        builder: (context, state) {
-          if (state is LoadingState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is ErrorState) {
-            return Center(
-              child: Icon(Icons.close),
-            );
-          } else if (state is LoadedState) {
-            Questions _questions = state.questions;
-            List<Map<String, dynamic>> tempQuestions = [];
+      body: Container(
+        width: size.width,
+        height: size.height,
+        child: BlocBuilder<QuestionsCubit, QuestionsState>(
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is ErrorState) {
+              return Center(
+                child: Icon(
+                  Icons.close,
+                  size: 64,
+                  color: Colors.red,
+                ),
+              );
+            } else if (state is LoadedState) {
+              Questions _questions = state.questions;
+              List<Map<String, dynamic>> tempQuestions = [];
 
-            _questions.questions.forEach((question) {
-              List<String> listOption = [];
+              _questions.questions.forEach((question) {
+                List<String> listOption = [];
 
-              Map<String, dynamic> tempRow = {
-                'question': question.question ?? '',
-                'list_option': listOption,
-                'answer': question.correctAnswer,
-              };
+                Map<String, dynamic> tempRow = {
+                  'question': question.question ?? '',
+                  'list_option': listOption,
+                  'answer': question.correctAnswer,
+                };
 
-              question.incorrectAnswers!.forEach((incorrect) {
-                if (tempRow['list_option'].length <= 2) {
-                  listOption.add(incorrect);
-                }
+                question.incorrectAnswers!.forEach((incorrect) {
+                  if (tempRow['list_option'].length <= 2) {
+                    listOption.add(incorrect);
+                  }
+                });
+
+                listOption.add(question.correctAnswer!);
+                tempRow['list_option'].shuffle();
+
+                tempQuestions.add(tempRow);
               });
 
-              listOption.add(question.correctAnswer!);
-              tempRow['list_option'].shuffle();
+              // print(tempQuestions[0]);
 
-              tempQuestions.add(tempRow);
-            });
-
-            print(tempQuestions[0]);
-
-            return WelcomeScreen(tempQuestions);
-          } else {
-            return Container(
-              child: Center(
-                child: Text('Empty Data Question'),
-              ),
-            );
-          }
-        },
+              return WelcomeScreen(tempQuestions);
+            } else {
+              return Center(
+                child: Text(
+                  'Empty Data Question',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
