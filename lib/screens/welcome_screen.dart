@@ -4,12 +4,19 @@ import 'package:quizionare/components/button.dart';
 import 'package:quizionare/screens/quiz_screen.dart';
 import 'package:quizionare/styles/style.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   static const id = 'welcome-screen';
 
   final List<Map<String, dynamic>> questions;
 
   WelcomeScreen(this.questions);
+
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  TextEditingController _name = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +38,28 @@ class WelcomeScreen extends StatelessWidget {
               SizedBox(
                 height: 64,
               ),
+              Container(
+                height: 64,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Enter your name',
+                  ),
+                  controller: _name,
+                ),
+              ),
               ButtonPrimary(
                 text: 'Start',
                 onPressed: () {
+                  print(_name.text);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => QuizScreen(questions: questions),
+                      builder: (context) =>
+                          QuizScreen(questions: widget.questions),
                     ),
                   );
                 },
