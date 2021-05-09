@@ -6,8 +6,9 @@ class QuizScreen extends StatefulWidget {
   static const id = 'quiz-screen';
 
   final List<Map<String, dynamic>> questions;
+  final String name;
 
-  QuizScreen({required this.questions});
+  QuizScreen({required this.questions, required this.name});
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -40,7 +41,10 @@ class _QuizScreenState extends State<QuizScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ScoreScreen(score: _score),
+          builder: (context) => ScoreScreen(
+            score: _score,
+            name: widget.name,
+          ),
         ),
       );
     }

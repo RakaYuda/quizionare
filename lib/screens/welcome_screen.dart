@@ -58,8 +58,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          QuizScreen(questions: widget.questions),
+                      builder: (context) => QuizScreen(
+                        questions: widget.questions,
+                        name: _name.text,
+                      ),
                     ),
                   );
                 },

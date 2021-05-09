@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.id: (context) => HomeScreen(),
           ScoreScreen.id: (context) => ScoreScreen(
                 score: 0,
+                name: '-',
               ),
         },
         home: HomeScreen(),

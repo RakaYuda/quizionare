@@ -10,8 +10,9 @@ class ScoreScreen extends StatelessWidget {
   static const id = 'score-screen';
 
   final int score;
+  final String name;
 
-  ScoreScreen({required this.score});
+  ScoreScreen({required this.score, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,13 @@ class ScoreScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Text(
+                    '$name',
+                    textAlign: TextAlign.center,
+                    style: kTextPrimary.copyWith(
+                      fontSize: 32,
+                    ),
+                  ),
                   Text(
                     'Your Score : ',
                     textAlign: TextAlign.center,
