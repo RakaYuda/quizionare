@@ -29,3 +29,9 @@ final TextStyle kTextWhite = TextStyle(
   fontSize: 16,
   fontFamily: 'Lato',
 );
+
+final TextStyle kTextSecondary = TextStyle(
+  color: Color(0xFFF8F8F8),
+  fontSize: 16,
+  fontFamily: 'Lato',
+);

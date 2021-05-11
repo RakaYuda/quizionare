@@ -26,6 +26,21 @@ class TextSecondary extends StatelessWidget {
     return Text(
       text,
       textAlign: TextAlign.center,
+      style: kTextSecondary,
+    );
+  }
+}
+
+class TextWhite extends StatelessWidget {
+  final String text;
+
+  TextWhite({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      textAlign: TextAlign.center,
       style: kTextWhite,
     );
   }
